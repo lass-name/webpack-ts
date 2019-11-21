@@ -1,5 +1,7 @@
 # webpack-ts
 
+vue 3.x TypeScript Template
+
 ## Project setup
 ```
 npm install
@@ -27,3 +29,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
