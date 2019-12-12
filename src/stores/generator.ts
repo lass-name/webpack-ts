@@ -1,7 +1,7 @@
 import { Commit } from 'vuex'
 import modules from '@/stores/modules'
 import { IDynamic } from '@/typings'
-import service from '@/services'
+import service, { methods } from '@/services'
 
 const genModules:IDynamic = {}
 const getModules = (serviceObject:IDynamic, key:string = 'generator', namespace:string = 'common', actions:IDynamic = {}) => {
@@ -27,6 +27,6 @@ const getModules = (serviceObject:IDynamic, key:string = 'generator', namespace:
   }
 }
 
-getModules(service)
+getModules(methods)
 
 export default genModules

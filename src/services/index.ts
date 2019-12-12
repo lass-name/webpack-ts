@@ -53,4 +53,7 @@ requireAPI.keys().forEach((file:string) => {
 
 services = { ...methods, ...services }
 // console.log('services=', services)
+export {
+  methods
+}
 export default services
