@@ -15,15 +15,16 @@ const getters: GetterTree<IDynamic, any> = {
 const actions: ActionTree<IDynamic, any> = {
   getUser: (context:{commit:Commit}, payload:object|string) => {
     context.commit('BBB', payload)
-  },
+  }/* ,
   insCoveragesList: (context:{commit:Commit}, payload:object|string) => {
     context.commit('BBB', payload)
-  }
+  } */
 }
 
 const mutations: MutationTree<IDynamic> = {
   'BBB' (state:IDynamic, data:object) {
     console.log(state, data)
+    state.user = data
   }
 }
 

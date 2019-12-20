@@ -10,13 +10,16 @@ requireContext.keys().forEach((file:string) => {
 
 const requireAPI = require.context('@/api', false, /\.ts$/)
 const methods:IDynamic = {}
+const generatorVuex:IDynamic = {}
 requireAPI.keys().forEach((file:string) => {
   const apiObject = requireAPI(file).default
   const fileName = file.replace(/\.\/|\.ts$/g, '')
 
   const tempMethods:IDynamic = {}
+  const tempVuex:IDynamic = {}
   for (const api of apiObject) {
     let { method, url, argsParams } = api.options
+    let vuex:any = api.vuex
     method = (method || 'get').toLowerCase()
 
     let methodName:string = url.replace(/^\/|\/$/g, '').replace(/[\W|_]([a-zA-Z])/g, (_:string, letter:string) => {
@@ -47,13 +50,27 @@ requireAPI.keys().forEach((file:string) => {
       options = { data, ...api.options, ...options }
       return service.request(commit, options, mutation)
     }
+    if (vuex || (vuex !== false && method === 'get')) {
+      let _mutationType:string = url.replace(/^\/|\/$/g, '').replace(/\W/g, '_').toUpperCase()
+      console.log('mutationType=', _mutationType)
+      let state:string = (vuex && vuex.state) || _mutationType
+      let getter:string = (vuex && vuex.getter) || _mutationType
+      let mutationType:string = (vuex && vuex.mutationType) || _mutationType
+      tempVuex[methodName] = {
+        _state: state,
+        getter,
+        mutationType
+      }
+    }
   }
   methods[fileName] = tempMethods
+  generatorVuex[fileName] = tempVuex
 })
 
 services = { ...methods, ...services }
 // console.log('services=', services)
 export {
-  methods
+  methods,
+  generatorVuex
 }
 export default services
